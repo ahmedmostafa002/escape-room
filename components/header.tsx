@@ -32,19 +32,23 @@ export default function Header() {
         setIsMobileMenuOpen(false)
       }
       
-      // Show header when at the top
-      if (currentScrollY < 10) {
+      // Always show header when at the very top
+      if (currentScrollY <= 0) {
         setIsVisible(true)
         setIsScrolled(false)
       } else {
         setIsScrolled(true)
         
-        // Hide header when scrolling down, show when scrolling up
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          setIsVisible(false)
-        } else {
+        // Show header when scrolling up (any upward movement)
+        // Hide header only when scrolling down and more than 100px from top
+        if (currentScrollY < lastScrollY) {
+          // Scrolling up - always show header
           setIsVisible(true)
+        } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down and more than 100px from top - hide header
+          setIsVisible(false)
         }
+        // If scrolling down but less than 100px from top, keep header visible
       }
       
       setLastScrollY(currentScrollY)
@@ -62,6 +66,11 @@ export default function Header() {
       } ${
         isScrolled ? 'shadow-2xl shadow-escape-red/20' : ''
       }`}
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50
+      }}
     >
       {/* Atmospheric background elements */}
       <div className="absolute inset-0 opacity-10">

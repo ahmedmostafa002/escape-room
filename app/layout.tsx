@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/components/auth/AuthProvider"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import BackToTop from "@/components/back-to-top"
 import WebVitals from "@/components/performance/web-vitals"
 import ResourcePreloader from "@/components/performance/resource-preloader"
 import { LCPOptimizer } from "@/components/performance/resource-preloader"
@@ -154,6 +155,7 @@ export default function RootLayout({
             <Header />
             <main id="main-content">{children}</main>
             <Footer />
+            <BackToTop />
             <WebVitals />
             <Toaster />
             {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
