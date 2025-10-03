@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Menu, User, LogOut, Settings } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useAuth } from "@/components/auth/AuthProvider"
 import {
   DropdownMenu,
@@ -17,21 +17,52 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Header() {
-  // const [isScrolled, setIsScrolled] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { user, loading, signOut } = useAuth()
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setIsScrolled(window.scrollY > 0)
-  //   }
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
+      // Close mobile menu when scrolling
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false)
+      }
+      
+      // Show header when at the top
+      if (currentScrollY < 10) {
+        setIsVisible(true)
+        setIsScrolled(false)
+      } else {
+        setIsScrolled(true)
+        
+        // Hide header when scrolling down, show when scrolling up
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          setIsVisible(false)
+        } else {
+          setIsVisible(true)
+        }
+      }
+      
+      setLastScrollY(currentScrollY)
+    }
 
-  //   window.addEventListener('scroll', handleScroll)
-  //   return () => window.removeEventListener('scroll', handleScroll)
-  // }, [])
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY, isMobileMenuOpen])
 
   return (
-    <header id="navigation" className="sticky top-0 z-50 bg-gradient-to-br from-gray-900 via-black to-gray-800 backdrop-blur-md border-b border-escape-red/20 shadow-lg shadow-escape-red/10 relative overflow-hidden">
+    <header 
+      id="navigation" 
+      className={`sticky top-0 z-50 bg-gradient-to-br from-gray-900 via-black to-gray-800 backdrop-blur-md border-b border-escape-red/20 shadow-lg shadow-escape-red/10 relative overflow-hidden transition-transform duration-300 ease-in-out ${
+        isVisible ? 'translate-y-0' : '-translate-y-full'
+      } ${
+        isScrolled ? 'shadow-2xl shadow-escape-red/20' : ''
+      }`}
+    >
       {/* Atmospheric background elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-1/4 w-32 h-32 bg-escape-red rounded-full blur-3xl animate-pulse"></div>
