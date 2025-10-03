@@ -26,7 +26,7 @@ export default function AuthPage() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src="/images/hero.jpeg"
+            src="/images/contact-page.png"
             alt="Escape room authentication"
             fill
             sizes="100vw"
@@ -56,7 +56,7 @@ export default function AuthPage() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/images/hero.jpeg"
+          src="/images/contact-page.png"
           alt="Escape room authentication"
           fill
           sizes="100vw"

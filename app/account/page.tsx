@@ -25,7 +25,7 @@ export default function AccountPage() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src="/images/hero.jpeg"
+            src="/images/contact-page.png"
             alt="Escape room account management"
             fill
             sizes="100vw"
@@ -59,7 +59,7 @@ export default function AccountPage() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="/images/hero.jpeg"
+          src="/images/contact-page.png"
           alt="Escape room account management"
           fill
           sizes="100vw"
