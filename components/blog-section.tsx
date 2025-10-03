@@ -7,7 +7,7 @@ import { Calendar, Clock, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { BlogPost, getFeaturedBlogPosts, formatDate, getImageUrl, calculateReadTime, createSeoSlug } from "@/lib/sanity";
+import { BlogPost, getFeaturedBlogPostsClient, formatDate, getImageUrl, calculateReadTime, createSeoSlug } from "@/lib/sanity";
 
 export default function BlogSection() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -18,7 +18,8 @@ export default function BlogSection() {
     async function fetchBlogPosts() {
       try {
         setLoading(true);
-        const posts = await getFeaturedBlogPosts();
+        setError(null);
+        const posts = await getFeaturedBlogPostsClient();
         setBlogPosts(posts);
       } catch (err) {
         console.error('Error fetching blog posts:', err);

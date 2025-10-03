@@ -11,6 +11,15 @@ export const client = createClient({
   token: process.env.SANITY_API_TOKEN,
 })
 
+// Client-side Sanity client (for browser use)
+export const clientSideClient = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION!,
+  useCdn: true, // Always use CDN for client-side
+  // No token needed for public read access
+})
+
 // Image URL builder
 const builder = imageUrlBuilder(client)
 
@@ -170,6 +179,11 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
 
 export async function getFeaturedBlogPosts(): Promise<BlogPost[]> {
   return await client.fetch(featuredBlogPostsQuery)
+}
+
+// Client-side version for browser use
+export async function getFeaturedBlogPostsClient(): Promise<BlogPost[]> {
+  return await clientSideClient.fetch(featuredBlogPostsQuery)
 }
 
 // Alias for getAllBlogPosts for consistency

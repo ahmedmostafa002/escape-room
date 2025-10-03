@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import ContactForm from "@/components/contact-form"
 // import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Mail, Phone, MessageCircle } from "lucide-react"
 import Image from "next/image"
@@ -293,46 +292,7 @@ export default function ContactPage() {
                 <p className="text-gray-600">Send us a message and we&apos;ll get back to you as soon as possible.</p>
               </CardHeader>
               <CardContent className="relative z-10">
-                <form className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="block text-sm font-medium text-gray-700">Name</label>
-                      <Input 
-                        placeholder="Your name" 
-                        className="h-12 focus:ring-2 focus:ring-escape-red focus:border-escape-red border-gray-300 transition-all duration-300 hover:border-escape-red/50" 
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="block text-sm font-medium text-gray-700">Email</label>
-                      <Input 
-                        type="email" 
-                        placeholder="your@email.com" 
-                        className="h-12 focus:ring-2 focus:ring-escape-red focus:border-escape-red border-gray-300 transition-all duration-300 hover:border-escape-red/50" 
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Subject</label>
-                    <Input 
-                      placeholder="How can we help?" 
-                      className="h-12 focus:ring-2 focus:ring-escape-red focus:border-escape-red border-gray-300 transition-all duration-300 hover:border-escape-red/50" 
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Message</label>
-                    <Textarea 
-                      placeholder="Describe your question or issue..." 
-                      rows={5} 
-                      className="focus:ring-2 focus:ring-escape-red focus:border-escape-red border-gray-300 transition-all duration-300 hover:border-escape-red/50 resize-none" 
-                    />
-                  </div>
-
-                  <Button className="w-full h-14 bg-gradient-to-r from-escape-red to-escape-red-700 hover:from-escape-red-700 hover:to-escape-red text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
-                    Send Message
-                  </Button>
-                </form>
+                <ContactForm />
               </CardContent>
             </Card>
           </div>

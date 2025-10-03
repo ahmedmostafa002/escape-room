@@ -71,8 +71,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon-with-image.svg" type="image/svg+xml" />
-        <link rel="icon" href="/fav.png" type="image/png" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <ResourcePreloader 
           criticalImages={[
             '/images/hero.jpeg'

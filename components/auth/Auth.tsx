@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import ReCaptcha from '@/components/ui/recaptcha'
 import { Loader2 } from 'lucide-react'
 
 export default function Auth() {
@@ -16,13 +17,51 @@ export default function Auth() {
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
+  const [recaptchaError, setRecaptchaError] = useState(false)
+
+  const handleRecaptchaVerify = (token: string) => {
+    setRecaptchaToken(token)
+    setRecaptchaError(false)
+  }
+
+  const handleRecaptchaExpire = () => {
+    setRecaptchaToken(null)
+    setRecaptchaError(true)
+  }
+
+  const handleRecaptchaError = () => {
+    setRecaptchaToken(null)
+    setRecaptchaError(true)
+  }
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setMessage(null)
 
+    if (!recaptchaToken) {
+      setRecaptchaError(true)
+      setMessage({ type: 'error', text: 'Please complete the reCAPTCHA verification.' })
+      setLoading(false)
+      return
+    }
+
     try {
+      // Verify reCAPTCHA first
+      const recaptchaResponse = await fetch('/api/verify-recaptcha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: recaptchaToken }),
+      })
+
+      const recaptchaResult = await recaptchaResponse.json()
+
+      if (!recaptchaResult.success) {
+        throw new Error('reCAPTCHA verification failed')
+      }
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -48,7 +87,28 @@ export default function Auth() {
     setLoading(true)
     setMessage(null)
 
+    if (!recaptchaToken) {
+      setRecaptchaError(true)
+      setMessage({ type: 'error', text: 'Please complete the reCAPTCHA verification.' })
+      setLoading(false)
+      return
+    }
+
     try {
+      // Verify reCAPTCHA first
+      const recaptchaResponse = await fetch('/api/verify-recaptcha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token: recaptchaToken }),
+      })
+
+      const recaptchaResult = await recaptchaResponse.json()
+
+      if (!recaptchaResult.success) {
+        throw new Error('reCAPTCHA verification failed')
+      }
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -144,10 +204,28 @@ export default function Auth() {
                   }}
                 />
               </div>
+              <div className="space-y-4">
+                <div className="flex justify-center">
+                  <ReCaptcha
+                    onVerify={handleRecaptchaVerify}
+                    onExpire={handleRecaptchaExpire}
+                    onError={handleRecaptchaError}
+                    theme="light"
+                    size="normal"
+                    className="recaptcha-container"
+                  />
+                </div>
+                {recaptchaError && (
+                  <p className="text-sm text-red-500 text-center">
+                    Please complete the reCAPTCHA verification
+                  </p>
+                )}
+              </div>
+
               <Button 
                 type="submit" 
                 className="w-full h-12 bg-gradient-to-r from-escape-red to-escape-red-700 hover:from-escape-red-700 hover:to-escape-red text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]" 
-                disabled={loading}
+                disabled={loading || !recaptchaToken}
               >
                 {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                 Sign In
@@ -209,10 +287,28 @@ export default function Auth() {
                   }}
                 />
               </div>
+              <div className="space-y-4">
+                <div className="flex justify-center">
+                  <ReCaptcha
+                    onVerify={handleRecaptchaVerify}
+                    onExpire={handleRecaptchaExpire}
+                    onError={handleRecaptchaError}
+                    theme="light"
+                    size="normal"
+                    className="recaptcha-container"
+                  />
+                </div>
+                {recaptchaError && (
+                  <p className="text-sm text-red-500 text-center">
+                    Please complete the reCAPTCHA verification
+                  </p>
+                )}
+              </div>
+
               <Button 
                 type="submit" 
                 className="w-full h-12 bg-gradient-to-r from-escape-red to-escape-red-700 hover:from-escape-red-700 hover:to-escape-red text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]" 
-                disabled={loading}
+                disabled={loading || !recaptchaToken}
               >
                 {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                 Sign Up
