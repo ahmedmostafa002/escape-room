@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -125,19 +125,7 @@ export default function AddListingPage() {
     }
   }, [formData.city, formData.state])
 
-  // Handle edit mode - check for edit parameter in URL
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const editIdParam = urlParams.get('edit')
-    
-    if (editIdParam && user) {
-      setIsEditMode(true)
-      setEditId(editIdParam)
-      loadListingForEdit(editIdParam)
-    }
-  }, [user, loadListingForEdit])
-
-  const loadListingForEdit = async (id: string) => {
+  const loadListingForEdit = useCallback(async (id: string) => {
     setIsLoadingListing(true)
     setSubmitMessage(null)
     
@@ -199,7 +187,19 @@ export default function AddListingPage() {
     } finally {
       setIsLoadingListing(false)
     }
-  }
+  }, [])
+
+  // Handle edit mode - check for edit parameter in URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const editIdParam = urlParams.get('edit')
+    
+    if (editIdParam && user) {
+      setIsEditMode(true)
+      setEditId(editIdParam)
+      loadListingForEdit(editIdParam)
+    }
+  }, [user, loadListingForEdit])
 
   // Show loading while checking authentication or loading listing for edit
   if (loading || isLoadingListing) {

@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 
-interface RouteParams {
-  params: {
-    id: string
-  }
-}
-
-export async function POST(request: NextRequest, { params }: RouteParams) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const reviewId = params.id
 
@@ -18,14 +15,15 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       )
     }
 
-    // Check if the review exists
-    const { data: review, error: fetchError } = await supabase
+    // First, get the current helpful count
+    const { data: currentReview, error: fetchError } = await supabase
       .from('reviews')
-      .select('id, helpful_count')
+      .select('helpful_count')
       .eq('id', reviewId)
       .single()
 
-    if (fetchError || !review) {
+    if (fetchError) {
+      console.error('Error fetching current review:', fetchError)
       return NextResponse.json(
         { error: 'Review not found' },
         { status: 404 }
@@ -33,17 +31,21 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
 
     // Increment the helpful count
-    const { data: updatedReview, error: updateError } = await supabase
+    const newCount = (currentReview.helpful_count || 0) + 1
+
+    // Update the review with the new count
+    const { data, error } = await supabase
       .from('reviews')
       .update({ 
-        helpful_count: review.helpful_count + 1 
+        helpful_count: newCount,
+        updated_at: new Date().toISOString()
       })
       .eq('id', reviewId)
-      .select()
+      .select('helpful_count')
       .single()
 
-    if (updateError) {
-      console.error('Error updating helpful count:', updateError)
+    if (error) {
+      console.error('Error updating helpful count:', error)
       return NextResponse.json(
         { error: 'Failed to update helpful count' },
         { status: 500 }
@@ -51,11 +53,12 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }
 
     return NextResponse.json({
-      message: 'Review marked as helpful',
-      review: updatedReview
+      success: true,
+      helpful_count: data.helpful_count
     })
+
   } catch (error) {
-    console.error('Error in POST /api/reviews/[id]/helpful:', error)
+    console.error('Error in helpful endpoint:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

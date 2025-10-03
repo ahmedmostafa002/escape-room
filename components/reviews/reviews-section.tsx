@@ -92,19 +92,13 @@ export function ReviewsSection({
             ? { ...review, helpful_count: review.helpful_count + 1 }
             : review
         ))
+        
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(new CustomEvent('reviewUpdated'))
       }
     } catch (error) {
       console.error('Failed to mark review as helpful:', error)
     }
-  }
-
-  const handleDelete = async (reviewId: string) => {
-    // Only refresh reviews to get updated stats after successful deletion
-    // The ReviewCard component handles the actual API call and only calls this on success
-    await fetchReviews()
-    
-    // Dispatch custom event to notify other components
-    window.dispatchEvent(new CustomEvent('reviewUpdated'))
   }
 
   const renderStars = (rating: number, size = 'h-4 w-4') => {
@@ -260,7 +254,6 @@ export function ReviewsSection({
                 key={review.id}
                 review={review}
                 onHelpful={handleHelpful}
-                onDelete={handleDelete}
               />
             ))}
           </div>

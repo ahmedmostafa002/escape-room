@@ -86,6 +86,20 @@ export default function RootLayout({
           heroImageAlt="Discover Amazing Escape Room Adventures - Find the Perfect Escape Room Experience Near You"
         />
         <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Remove browser extension attributes that cause hydration mismatches
+              if (typeof window !== 'undefined') {
+                const body = document.body;
+                if (body) {
+                  body.removeAttribute('data-new-gr-c-s-check-loaded');
+                  body.removeAttribute('data-gr-ext-installed');
+                }
+              }
+            `
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -110,7 +124,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} ${inter.variable}`}>
+      <body 
+        className={`${inter.className} ${inter.variable}`} 
+        suppressHydrationWarning={true}
+        data-suppress-hydration-warning="true"
+      >
         {/* Skip Links for Accessibility */}
         <a 
           href="#main-content" 

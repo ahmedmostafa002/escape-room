@@ -1,4 +1,4 @@
-import { Star, ThumbsUp, Calendar, User, Trash2, Shield, Clock } from 'lucide-react'
+import { Star, ThumbsUp, Calendar, User, Shield, Clock } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -21,11 +21,10 @@ interface Review {
 interface ReviewCardProps {
   review: Review
   onHelpful?: (reviewId: string) => void
-  onDelete?: (reviewId: string) => void
 }
 
-export function ReviewCard({ review, onHelpful, onDelete }: ReviewCardProps) {
-  const [isDeleting, setIsDeleting] = useState(false)
+export function ReviewCard({ review, onHelpful }: ReviewCardProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -46,41 +45,37 @@ export function ReviewCard({ review, onHelpful, onDelete }: ReviewCardProps) {
     ))
   }
 
-  const handleDelete = async () => {
-    if (!review.is_manual) {
-      toast({
-        title: 'Cannot Delete',
-        description: 'Original database reviews cannot be deleted.',
-        variant: 'destructive'
-      })
-      return
-    }
-
-    setIsDeleting(true)
+  const handleHelpful = async () => {
+    if (isSubmitting) return
+    
+    setIsSubmitting(true)
     try {
-      const response = await fetch(`/api/reviews?review_id=${review.id}`, {
-        method: 'DELETE'
+      const response = await fetch(`/api/reviews/${review.id}/helpful`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
 
       if (response.ok) {
         toast({
-          title: 'Review Deleted',
-          description: 'Your review has been successfully deleted.'
+          title: 'Thank you!',
+          description: 'Your feedback has been recorded.',
         })
-        onDelete?.(review.id)
+        onHelpful?.(review.id)
       } else {
         const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to delete review')
+        throw new Error(errorData.error || 'Failed to submit helpful feedback')
       }
     } catch (error) {
-      console.error('Error deleting review:', error)
+      console.error('Error submitting helpful feedback:', error)
       toast({
         title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to delete review. Please try again.',
+        description: error instanceof Error ? error.message : 'Failed to submit feedback. Please try again.',
         variant: 'destructive'
       })
     } finally {
-      setIsDeleting(false)
+      setIsSubmitting(false)
     }
   }
 
@@ -138,28 +133,17 @@ export function ReviewCard({ review, onHelpful, onDelete }: ReviewCardProps) {
         {review.comment && (
           <p className="text-slate-300 leading-relaxed mb-4 group-hover:text-slate-200 transition-colors">{review.comment}</p>
         )}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-start">
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onHelpful?.(review.id)}
+            onClick={handleHelpful}
+            disabled={isSubmitting}
             className="text-slate-400 hover:text-red-300 hover:bg-red-900/20 border border-transparent hover:border-red-500/30 transition-all"
           >
             <ThumbsUp className="h-4 w-4 mr-1" />
-            Helpful ({review.helpful_count})
+            {isSubmitting ? 'Submitting...' : `Helpful (${review.helpful_count})`}
           </Button>
-          {review.is_manual && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleDelete}
-              disabled={isDeleting}
-              className="text-red-400 hover:text-red-300 hover:bg-red-900/20 border border-transparent hover:border-red-500/30 transition-all"
-            >
-              <Trash2 className="h-4 w-4 mr-1" />
-              {isDeleting ? 'Deleting...' : 'Delete'}
-            </Button>
-          )}
         </div>
       </CardContent>
     </Card>
