@@ -922,7 +922,7 @@ export default function AddListingPage() {
                                   width={96}
                                   height={96}
                                   className="w-full h-24 object-cover rounded-lg border border-gray-200"
-                                  onError={async () => {
+                                  onError={async (event) => {
                                     console.error('Image failed to load:', imageUrl)
                                     
                                     // Try to convert signed URL to public URL
@@ -931,7 +931,7 @@ export default function AddListingPage() {
                                         const filePath = imageUrl.split('ik.imagekit.io/6wjcics7s')[1].split('?')[0]
                                         const publicUrl = `https://ik.imagekit.io/6wjcics7s${filePath}`
                                         console.log('Trying public URL:', publicUrl)
-                                        e.currentTarget.src = publicUrl
+                                        event.currentTarget.src = publicUrl
                                         return
                                       } catch (conversionError) {
                                         console.error('Failed to convert to public URL:', conversionError)
@@ -950,7 +950,7 @@ export default function AddListingPage() {
                                         
                                         if (response.ok) {
                                           const { url } = await response.json()
-                                          e.currentTarget.src = url
+                                          event.currentTarget.src = url
                                           return
                                         }
                                       } catch (refreshError) {
@@ -958,7 +958,7 @@ export default function AddListingPage() {
                                       }
                                     }
                                     
-                                    e.currentTarget.style.display = 'none'
+                                    event.currentTarget.style.display = 'none'
                                   }}
                                   onLoad={() => {
                                     console.log('Image loaded successfully:', imageUrl)

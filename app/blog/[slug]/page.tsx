@@ -15,22 +15,25 @@ import RelatedPosts from '@/components/related-posts'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 interface ImageValue {
   asset: {
     _ref: string
+    _type: "reference"
   }
   alt?: string
+  caption?: string
 }
 
 interface TableRow {
   cells: Array<{
     isHeader?: boolean
     text?: string
+    content?: string
   }>
 }
 
@@ -216,9 +219,9 @@ const portableTextComponents = {
         {children}
       </em>
     ),
-    link: ({ children, value }: { children: React.ReactNode; value: { href: string } }) => (
+    link: ({ children, value }: { children: React.ReactNode; value?: { href: string } }) => (
       <a 
-        href={value.href} 
+        href={value?.href || '#'} 
         target="_blank" 
         rel="noopener noreferrer" 
         className="text-escape-red hover:text-escape-red-700 underline decoration-escape-red/50 hover:decoration-escape-red transition-all duration-300 font-medium"
