@@ -62,7 +62,7 @@ export default function ReCaptcha({
     if (isLoaded && recaptchaRef.current && widgetId === null) {
       try {
         const id = window.grecaptcha.render(recaptchaRef.current, {
-          sitekey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+          sitekey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6Ld9r90rAAAAAFtjV404YJvXhO9IX8Rslcbd6NiJ',
           theme,
           size,
           callback: (token: string) => {
