@@ -75,27 +75,27 @@ export function createLocationBreadcrumbs(
   venue?: string
 ): SharedBreadcrumbItem[] {
   const items: SharedBreadcrumbItem[] = [
-    { name: "Home", href: "/" }
+    { name: "Home", href: "https://escaperoomsfinder.com/" }
   ];
 
   if (country) {
     items.push({
       name: country,
-      href: state || city || venue ? `/locations/${country.toLowerCase()}` : undefined
+      href: state || city || venue ? `https://escaperoomsfinder.com/locations/${country.toLowerCase()}` : undefined
     });
   }
 
   if (state) {
     items.push({
       name: state,
-      href: city || venue ? `/locations/${country?.toLowerCase()}/${state.toLowerCase().replace(/\s+/g, '-')}` : undefined
+      href: city || venue ? `https://escaperoomsfinder.com/locations/${country?.toLowerCase()}/${state.toLowerCase().replace(/\s+/g, '-')}` : undefined
     });
   }
 
   if (city) {
     items.push({
       name: city,
-      href: venue ? `/locations/${country?.toLowerCase()}/${state?.toLowerCase().replace(/\s+/g, '-')}/${city.toLowerCase().replace(/\s+/g, '-')}` : undefined
+      href: venue ? `https://escaperoomsfinder.com/locations/${country?.toLowerCase()}/${state?.toLowerCase().replace(/\s+/g, '-')}/${city.toLowerCase().replace(/\s+/g, '-')}` : undefined
     });
   }
 
@@ -114,8 +114,8 @@ export function createLocationBreadcrumbs(
  */
 export function createThemeBreadcrumbs(theme?: string): SharedBreadcrumbItem[] {
   const items: SharedBreadcrumbItem[] = [
-    { name: "Home", href: "/" },
-    { name: "Themes", href: theme ? "/themes" : undefined }
+    { name: "Home", href: "https://escaperoomsfinder.com/" },
+    { name: "Themes", href: theme ? "https://escaperoomsfinder.com/themes" : undefined }
   ];
 
   if (theme) {
@@ -133,8 +133,8 @@ export function createThemeBreadcrumbs(theme?: string): SharedBreadcrumbItem[] {
  */
 export function createBlogBreadcrumbs(postTitle?: string): SharedBreadcrumbItem[] {
   const items: SharedBreadcrumbItem[] = [
-    { name: "Home", href: "/" },
-    { name: "Blog", href: postTitle ? "/blog" : undefined }
+    { name: "Home", href: "https://escaperoomsfinder.com/" },
+    { name: "Blog", href: postTitle ? "https://escaperoomsfinder.com/blog" : undefined }
   ];
 
   if (postTitle) {
@@ -151,7 +151,7 @@ export function createBlogBreadcrumbs(postTitle?: string): SharedBreadcrumbItem[
  */
 export function createBrowseBreadcrumbs(): SharedBreadcrumbItem[] {
   return [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "https://escaperoomsfinder.com/" },
     { name: "Browse Escape Rooms" }
   ];
 }
@@ -161,7 +161,7 @@ export function createBrowseBreadcrumbs(): SharedBreadcrumbItem[] {
  */
 export function createHelpBreadcrumbs(): SharedBreadcrumbItem[] {
   return [
-    { name: "Home", href: "/" },
+    { name: "Home", href: "https://escaperoomsfinder.com/" },
     { name: "Help & FAQ" }
   ];
 }

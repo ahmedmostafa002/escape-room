@@ -89,6 +89,7 @@ export default async function ThemePage({ params }: { params: Promise<{ theme: s
     "@graph": [
       {
         "@type": "BreadcrumbList",
+        "@id": "#breadcrumb",
         "itemListElement": [
           {
             "@type": "ListItem",
