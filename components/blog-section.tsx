@@ -76,7 +76,8 @@ export default function BlogSection() {
             </div>
           ) : (
             // Blog posts
-            blogPosts.map((post) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogPosts.map((post) => (
               <Card key={post._id} className="group hover:shadow-2xl hover:shadow-escape-red/20 transition-all duration-500 border border-gray-200/50 hover:border-escape-red/30 shadow-lg bg-gradient-to-br from-white via-gray-50/50 to-white relative overflow-hidden">
                 {/* Card atmospheric background */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -132,7 +133,8 @@ export default function BlogSection() {
                   </Link>
                 </CardContent>
               </Card>
-            ))
+              ))}
+            </div>
           )}
         </div>
 
