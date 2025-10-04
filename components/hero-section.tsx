@@ -221,7 +221,7 @@ export default function HeroSection() {
   }
 
   return (
-    <div className="relative w-full min-h-[60vh]" style={backgroundStyle} role="img" aria-label="Exciting escape room experience with players solving puzzles in an immersive environment">
+    <div className="relative w-full min-h-[50vh]" style={backgroundStyle} role="img" aria-label="Exciting escape room experience with players solving puzzles in an immersive environment">
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/80" />
       
       {/* Enhanced atmospheric elements */}
@@ -264,7 +264,7 @@ export default function HeroSection() {
         <div className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-escape-red-600 rounded-full animate-ping delay-500"></div>
       </div>
       
-      <div className="relative z-10 py-16 md:py-40">
+      <div className="relative z-10 py-12 md:py-24">
         <div className="container mx-auto px-4 text-center">
           {/* Main Title */}
           <header className="mb-6">
