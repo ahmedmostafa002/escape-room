@@ -16,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
         '/admin/',
       ],
     },
-    sitemap: 'https://escaperoomsfinder.com/sitemap-index.xml',
+    sitemap: 'https://escaperoomsfinder.com/sitemap.xml',
   }
 }
