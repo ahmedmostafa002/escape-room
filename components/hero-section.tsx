@@ -221,7 +221,7 @@ export default function HeroSection() {
   }
 
   return (
-    <div className="relative w-full min-h-[50vh]" style={backgroundStyle} role="img" aria-label="Exciting escape room experience with players solving puzzles in an immersive environment">
+    <div className="relative w-full min-h-[40vh]" style={backgroundStyle} role="img" aria-label="Exciting escape room experience with players solving puzzles in an immersive environment">
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/80" />
       
       {/* Enhanced atmospheric elements */}
@@ -264,14 +264,14 @@ export default function HeroSection() {
         <div className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-escape-red-600 rounded-full animate-ping delay-500"></div>
       </div>
       
-      <div className="relative z-10 py-12 md:py-24">
+      <div className="relative z-10 py-12">
         <div className="container mx-auto px-4 text-center">
           {/* Main Title */}
-          <header className="mb-6">
-            <h1 className="space-y-2 mb-4">
+          <header className="mb-4">
+            <h1 className="space-y-1 mb-3">
               {mainHeading}
             </h1>
-            <p className="text-xl md:text-2xl mb-12 text-white/80 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl mb-8 text-white/80 max-w-3xl mx-auto leading-relaxed">
               Discover the most thrilling escape rooms across the globe.
               <br className="hidden sm:block" />
               Explore adventure, mystery, fantasy, horror, and historical themed rooms.
@@ -279,7 +279,7 @@ export default function HeroSection() {
           </header>
 
         {/* Enhanced Search bar with escape room styling */}
-        <div className="max-w-4xl mx-auto bg-gradient-to-r from-black/20 via-black/30 to-black/20 backdrop-blur-md rounded-2xl p-6 mb-8 shadow-2xl border border-escape-red/20 relative">
+        <div className="max-w-4xl mx-auto bg-gradient-to-r from-black/20 via-black/30 to-black/20 backdrop-blur-md rounded-2xl p-4 mb-6 shadow-2xl border border-escape-red/20 relative">
             {/* Search bar atmospheric elements */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-0 left-0 w-16 h-16 bg-escape-red rounded-full blur-xl animate-pulse"></div>

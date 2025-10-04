@@ -206,7 +206,7 @@ export default async function CountryPage({ params }: CountryPageProps) {
               <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
                 Discover thrilling escape room adventures across {countryName}. From mind-bending puzzles to immersive storylines, find your next challenge.
                 <br className="hidden sm:block" />
-                <span className="text-escape-red-300">Unlock your next great adventure!</span>
+                <span className="text-escape-red-300">Explore escape rooms in this country!</span>
               </p>
               
               {/* Statistics */}

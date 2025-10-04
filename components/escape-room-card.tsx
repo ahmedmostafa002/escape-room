@@ -104,8 +104,8 @@ export default function EscapeRoomCard({ room }: EscapeRoomCardProps) {
             </div>
             
             {/* Room title overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-4">
-              <h3 className="text-xl font-bold text-white mb-1 line-clamp-2 leading-tight">
+            <div className="absolute bottom-0 left-0 right-0 p-3">
+              <h3 className="text-lg font-bold text-white mb-1 line-clamp-2 leading-tight">
                 {room.name}
               </h3>
             </div>
@@ -113,32 +113,32 @@ export default function EscapeRoomCard({ room }: EscapeRoomCardProps) {
         </Link>
         
         {/* Clean content section */}
-        <div className="p-4 bg-white">
+        <div className="p-3 bg-white">
           
           {/* Location and rating */}
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2">
             {/* Location */}
             <div className="flex items-center gap-2 text-gray-600">
-              <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
-                <MapPin className="h-3.5 w-3.5 text-gray-500" />
+              <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center">
+                <MapPin className="h-3 w-3 text-gray-500" />
               </div>
-              <span className="text-sm font-medium truncate">
+              <span className="text-xs font-medium truncate">
                 {room.city}, {room.state}
               </span>
             </div>
             
             {/* Rating */}
             {room.rating ? (
-              <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-full">
-                <Star className="h-4 w-4 text-amber-400 fill-current" />
-                <span className="text-amber-700 font-semibold text-sm">
+              <div className="flex items-center gap-1 bg-amber-50 px-1.5 py-0.5 rounded-full">
+                <Star className="h-3 w-3 text-amber-400 fill-current" />
+                <span className="text-amber-700 font-semibold text-xs">
                   {room.rating.toFixed(1)}
                 </span>
               </div>
             ) : (
-              <div className="flex items-center gap-1 bg-gray-100 px-2 py-1 rounded-full">
-                <Star className="h-4 w-4 text-gray-400" />
-                <span className="text-gray-600 font-semibold text-sm">
+              <div className="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                <Star className="h-3 w-3 text-gray-400" />
+                <span className="text-gray-600 font-semibold text-xs">
                   N/A
                 </span>
               </div>
@@ -146,8 +146,8 @@ export default function EscapeRoomCard({ room }: EscapeRoomCardProps) {
           </div>
           
           {/* Theme */}
-          <div className="mb-4">
-            <Badge className="bg-escape-red/10 text-escape-red border-escape-red/20 hover:bg-escape-red/20 transition-colors duration-300 px-3 py-1 text-sm font-medium">
+          <div className="mb-3">
+            <Badge className="bg-escape-red/10 text-escape-red border-escape-red/20 hover:bg-escape-red/20 transition-colors duration-300 px-2 py-0.5 text-xs font-medium">
               {room.theme || "Adventure"}
             </Badge>
           </div>

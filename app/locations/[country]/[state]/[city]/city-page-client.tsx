@@ -302,7 +302,7 @@ export default function CityPageClient({ params }: CityPageClientProps) {
                   <>
                     Discover {cityData?.totalRooms || 0} thrilling escape room adventures in {cityName}, {stateAbbr}. From mind-bending puzzles to immersive storylines, find your next challenge.
                     <br className="hidden sm:block" />
-                    <span className="text-escape-red-300">Unlock your next great adventure!</span>
+                    <span className="text-escape-red-300">Book your escape room in this city!</span>
                   </>
                 )}
               </p>

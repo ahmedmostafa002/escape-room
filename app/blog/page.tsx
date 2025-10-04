@@ -247,7 +247,7 @@ export default async function BlogPage() {
               Discover the latest escape room trends, expert tips, and insights from our community of enthusiasts. 
               From beginner guides to advanced strategies, we&apos;ve got everything you need to enhance your escape room experience.
               <br className="hidden sm:block" />
-              <span className="text-escape-red-300">Unlock your next great adventure!</span>
+              <span className="text-escape-red-300">Master the art of escape!</span>
             </p>
           </div>
         </div>
@@ -289,10 +289,6 @@ export default async function BlogPage() {
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               {/* Main Content */}
               <div className="lg:col-span-3">
-                <div className="text-center mb-8">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4">Latest Articles</h2>
-                  <p className="text-gray-600">Showing {blogPosts.length} article{blogPosts.length !== 1 ? 's' : ''}</p>
-                </div>
                 
                 <div className="space-y-6">
                 {blogPosts.map((post) => (

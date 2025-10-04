@@ -40,10 +40,10 @@ export default function BlogSection() {
   }, []);
 
   return (
-    <section className="py-16 bg-white relative overflow-hidden">
+    <section className="py-12 bg-white relative overflow-hidden">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-escape-red via-escape-red-600 to-escape-red-700 bg-clip-text text-transparent mb-4">
             Latest from Our Blog
           </h2>
@@ -76,7 +76,7 @@ export default function BlogSection() {
             </div>
           ) : (
             // Blog posts
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {blogPosts.map((post) => (
               <Card key={post._id} className="group hover:shadow-2xl hover:shadow-escape-red/20 transition-all duration-500 border border-gray-200/50 hover:border-escape-red/30 shadow-lg bg-gradient-to-br from-white via-gray-50/50 to-white relative overflow-hidden">
                 {/* Card atmospheric background */}
@@ -91,36 +91,36 @@ export default function BlogSection() {
                       alt={post.image?.alt || `${post.title} - Escape Room Blog Article`}
                       width={400}
                       height={240}
-                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-36 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   
                   {/* Enhanced overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   
                   <div className="absolute top-4 left-4">
-                    <Badge variant="secondary" className="bg-gradient-to-r from-escape-red to-escape-red-700 text-white font-bold hover:from-escape-red-600 hover:to-escape-red-800 transition-all duration-300 shadow-lg px-3 py-1">
+                    <Badge variant="secondary" className="bg-gradient-to-r from-escape-red to-escape-red-700 text-white font-bold hover:from-escape-red-600 hover:to-escape-red-800 transition-all duration-300 shadow-lg px-2 py-0.5 text-xs">
                       {post.category || 'General'}
                     </Badge>
                   </div>
                 </div>
                 
-                <CardHeader className="pb-3 relative z-10">
-                  <CardTitle className="text-xl font-bold line-clamp-2 text-gray-900 group-hover:text-escape-red transition-colors duration-300 leading-tight">
+                <CardHeader className="pb-2 relative z-10">
+                  <CardTitle className="text-lg font-bold line-clamp-2 text-gray-900 group-hover:text-escape-red transition-colors duration-300 leading-tight">
                     {post.title}
                   </CardTitle>
-                  <CardDescription className="line-clamp-3 text-gray-600 group-hover:text-gray-700 transition-colors duration-300">
+                  <CardDescription className="line-clamp-2 text-gray-600 group-hover:text-gray-700 transition-colors duration-300 text-sm">
                     {post.excerpt || 'Read this exciting blog post to learn more!'}
                   </CardDescription>
                 </CardHeader>
                 
                 <CardContent className="pt-0 relative z-10">
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                  <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                     <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-escape-red" />
+                      <Calendar className="w-3 h-3 text-escape-red" />
                       <span className="font-medium">{formatDate(post.publishedAt)}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-escape-red-600" />
+                      <Clock className="w-3 h-3 text-escape-red-600" />
                       <span className="font-medium">{post.readTime || calculateReadTime(post.content)}</span>
                     </div>
                   </div>

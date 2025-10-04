@@ -128,7 +128,7 @@ export default async function LocationsPage() {
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
               Discover amazing escape rooms around the globe. Choose your country to start exploring unique escape room experiences worldwide.
               <br className="hidden sm:block" />
-              <span className="text-escape-red-300">Unlock your next great adventure!</span>
+              <span className="text-escape-red-300">Discover escape rooms near you!</span>
             </p>
           </div>
         </div>

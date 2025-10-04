@@ -49,11 +49,11 @@ export default function TestimonialsSection() {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#00d4aa]/5 to-[#1a1f2e]/5">
+    <section className="py-12 bg-gradient-to-br from-[#00d4aa]/5 to-[#1a1f2e]/5">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">What Our Users Say</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Users Say</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Don&apos;t just take our word for it - hear from thousands of satisfied adventure seekers
           </p>
         </div>

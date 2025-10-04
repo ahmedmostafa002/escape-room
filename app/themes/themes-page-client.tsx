@@ -211,7 +211,7 @@ export default function ThemesPageClient({ initialThemes }: ThemesPageClientProp
               From heart-pounding horror to mind-bending mysteries, find the perfect themed 
               escape room adventure for your group.
               <br className="hidden sm:block" />
-              <span className="text-escape-red-300">Unlock your next great adventure!</span>
+              <span className="text-escape-red-300">Find your perfect theme!</span>
             </p>
           </div>
         </div>

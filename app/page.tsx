@@ -50,13 +50,13 @@ export default function HomePage() {
       <HeroSection />
       <StatsSection />
       <HowItWorksSection />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-12">
         <Suspense fallback={<div>Loading featured rooms...</div>}>
           <FeaturedRooms />
         </Suspense>
       </div>
       <ThemesSection />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-12">
         <Suspense fallback={<div>Loading escape rooms...</div>}>
           <HomepageEscapeRooms />
         </Suspense>

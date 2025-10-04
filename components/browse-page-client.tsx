@@ -290,7 +290,7 @@ export default function BrowsePageClient() {
               <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
                 Discover over {stats.totalRooms.toLocaleString()} thrilling escape room adventures across {stats.uniqueCities} cities and {stats.uniqueStates} states worldwide. Filter by location and theme to find your perfect challenge.
                 <br className="hidden sm:block" />
-                <span className="text-escape-red-300">Unlock your next great adventure!</span>
+                <span className="text-escape-red-300">Start your escape room search!</span>
               </p>
             )}
           </div>

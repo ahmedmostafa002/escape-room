@@ -124,7 +124,7 @@ export default function StatsSection() {
   }, [isLoading])
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden">
+    <section className="py-12 bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden">
       {/* Enhanced atmospheric background */}
       <div className="absolute inset-0 opacity-15">
         <div className="absolute top-10 left-10 w-72 h-72 bg-escape-red rounded-full blur-3xl animate-pulse" />
@@ -159,18 +159,18 @@ export default function StatsSection() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-escape-red via-white to-escape-red-600 bg-clip-text text-transparent">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-escape-red via-white to-escape-red-600 bg-clip-text text-transparent">
             Trusted by Adventure Seekers
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
             Join millions of escape room enthusiasts who trust Escape Rooms Finder to discover their next thrilling adventure.
             <br className="hidden sm:block" />
             <span className="text-escape-red-300">Your next great escape awaits!</span>
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {stats.map((stat, index) => (
             <div
               key={index}
@@ -182,15 +182,15 @@ export default function StatsSection() {
               {/* Card background with glass effect */}
               <div className="absolute inset-0 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 group-hover:border-escape-red/30 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-escape-red/20"></div>
               
-              <div className="relative p-6">
+              <div className="relative p-4">
                 <div
-                  className={`inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br ${stat.color} rounded-2xl mb-6 shadow-lg group-hover:shadow-xl transition-shadow relative z-10`}
+                  className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br ${stat.color} rounded-2xl mb-4 shadow-lg group-hover:shadow-xl transition-shadow relative z-10`}
                 >
-                  <stat.icon className="h-10 w-10 text-white" />
+                  <stat.icon className="h-8 w-8 text-white" />
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-escape-red-200 transition-colors duration-300">{stat.value}</div>
-                <div className="text-gray-300 font-medium mb-1 group-hover:text-white transition-colors duration-300">{stat.label}</div>
-                <div className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">{stat.description}</div>
+                <div className="text-2xl md:text-3xl font-bold text-white mb-1 group-hover:text-escape-red-200 transition-colors duration-300">{stat.value}</div>
+                <div className="text-gray-300 font-medium mb-1 group-hover:text-white transition-colors duration-300 text-sm">{stat.label}</div>
+                <div className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors duration-300">{stat.description}</div>
               </div>
             </div>
           ))}

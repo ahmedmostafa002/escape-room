@@ -68,7 +68,7 @@ export default function HomepageEscapeRooms() {
         <div className="relative z-10">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-escape-red via-escape-red-600 to-escape-red-700 bg-clip-text text-transparent mb-2">
+              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-escape-red via-escape-red-600 to-escape-red-700 bg-clip-text text-transparent mb-2">
                 Discover All Escape Rooms
               </h2>
               <p className="text-gray-600 text-lg">
@@ -80,7 +80,7 @@ export default function HomepageEscapeRooms() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
               <Card key={i} className="overflow-hidden animate-pulse bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 hover:shadow-lg transition-shadow duration-300">
                 <div className="bg-gray-300 h-48 w-full"></div>
@@ -132,7 +132,7 @@ export default function HomepageEscapeRooms() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
           {rooms.map((room, index) => (
             <div key={room.id} className="group relative">
               {/* Enhanced card wrapper with escape room atmosphere */}

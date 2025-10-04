@@ -1,10 +1,45 @@
 import { cleanContent } from './content-cleaner'
 
+// Function to detect if a line is likely a list item
+function isLikelyListItem(line: string, index: number, allLines: string[]): boolean {
+  const trimmedLine = line.trim();
+  
+  // Skip empty lines
+  if (!trimmedLine) return false;
+  
+  // Skip if it's already a heading
+  if (trimmedLine.startsWith('#')) return false;
+  
+  // Check if it looks like a list item based on patterns
+  const hasColonPattern = /^[A-Z][^:]*:/.test(trimmedLine); // "Title: Description" pattern
+  const hasShortLength = trimmedLine.length < 100; // Short lines are more likely to be list items
+  const hasTitleCase = /^[A-Z]/.test(trimmedLine); // Starts with capital letter
+  const hasBulletPattern = /\*\*•\*\*/.test(trimmedLine); // Has **•** pattern
+  
+  // Check if the previous and next lines are also likely list items
+  const prevLine = index > 0 ? allLines[index - 1].trim() : '';
+  const nextLine = index < allLines.length - 1 ? allLines[index + 1].trim() : '';
+  
+  const prevIsListItem = prevLine && !prevLine.startsWith('#') && !prevLine.startsWith('-') && !prevLine.startsWith('*') && !/^\d+\./.test(prevLine) && prevLine.length < 100;
+  const nextIsListItem = nextLine && !nextLine.startsWith('#') && !nextLine.startsWith('-') && !nextLine.startsWith('*') && !/^\d+\./.test(nextLine) && nextLine.length < 100;
+  
+  // If it has a colon pattern and is short, it's likely a list item
+  if (hasColonPattern && hasShortLength) return true;
+  
+  // If it has bullet pattern, it's definitely a list item
+  if (hasBulletPattern) return true;
+  
+  // If it's in a sequence of similar lines, it's likely a list item
+  if (hasTitleCase && hasShortLength && (prevIsListItem || nextIsListItem)) return true;
+  
+  return false;
+}
+
 // Function to detect content type more accurately
 function detectContentType(content: string): 'html' | 'markdown' | 'plain' {
   const trimmedContent = content.trim();
   
-  // Check for HTML tags
+  // Check for HTML tags first
   const hasHtmlTags = /<[^>]*>/g.test(trimmedContent);
   
   if (hasHtmlTags) {
@@ -12,22 +47,34 @@ function detectContentType(content: string): 'html' | 'markdown' | 'plain' {
     const hasProperHtmlStructure = /<h[1-6][^>]*>.*?<\/h[1-6]>/g.test(trimmedContent) || 
                                   /<ul[^>]*>.*?<\/ul>/g.test(trimmedContent) ||
                                   /<ol[^>]*>.*?<\/ol>/g.test(trimmedContent) ||
-                                  /<p[^>]*>.*?<\/p>/g.test(trimmedContent);
+                                  /<p[^>]*>.*?<\/p>/g.test(trimmedContent) ||
+                                  /<div[^>]*>.*?<\/div>/g.test(trimmedContent) ||
+                                  /<span[^>]*>.*?<\/span>/g.test(trimmedContent);
     
     if (hasProperHtmlStructure) {
       return 'html';
     }
   }
   
-  // Check for markdown patterns
+  // Check for markdown patterns (more comprehensive)
   const hasMarkdownHeadings = /^#{1,6}\s+/gm.test(trimmedContent);
   const hasMarkdownLists = /^[\s]*[-*+]\s+/gm.test(trimmedContent) || /^[\s]*\d+\.\s+/gm.test(trimmedContent);
   const hasMarkdownLinks = /\[.*?\]\(.*?\)/g.test(trimmedContent);
   const hasMarkdownBold = /\*\*.*?\*\*/g.test(trimmedContent) || /__.*?__/g.test(trimmedContent);
   const hasMarkdownItalic = /\*.*?\*/g.test(trimmedContent) || /_.*?_/g.test(trimmedContent);
+  const hasMarkdownCode = /`.*?`/g.test(trimmedContent) || /```[\s\S]*?```/g.test(trimmedContent);
+  const hasMarkdownBlockquotes = /^>\s+/gm.test(trimmedContent);
   
-  if (hasMarkdownHeadings || hasMarkdownLists || hasMarkdownLinks || hasMarkdownBold || hasMarkdownItalic) {
+  if (hasMarkdownHeadings || hasMarkdownLists || hasMarkdownLinks || hasMarkdownBold || hasMarkdownItalic || hasMarkdownCode || hasMarkdownBlockquotes) {
     return 'markdown';
+  }
+  
+  // If content has line breaks and multiple paragraphs, treat as plain text that needs formatting
+  const hasMultipleLines = trimmedContent.includes('\n');
+  const hasParagraphs = trimmedContent.split('\n').filter(line => line.trim().length > 0).length > 1;
+  
+  if (hasMultipleLines && hasParagraphs) {
+    return 'plain';
   }
   
   return 'plain';
@@ -98,6 +145,20 @@ function parseMarkdown(content: string): string {
       }
       const listItem = trimmedLine.replace(/^[\s]*[-*+]\s+/, '').trim();
       listItems.push(`<li class="flex items-start gap-3"><div class="w-2 h-2 bg-escape-red rounded-full mt-3 flex-shrink-0"></div><span>${processInlineMarkdown(listItem)}</span></li>`);
+    }
+    // Handle list items that might not have standard markers but are clearly list items
+    else if (isLikelyListItem(trimmedLine, i, lines)) {
+      if (inOrderedList) {
+        processedLines.push(`<ol class="list-none text-gray-700 mb-1 space-y-0">${orderedListItems.join('')}</ol>`);
+        orderedListItems = [];
+        inOrderedList = false;
+        listItemCounter = 1;
+      }
+      if (!inList) {
+        inList = true;
+        listItems = [];
+      }
+      listItems.push(`<li class="flex items-start gap-3"><div class="w-2 h-2 bg-escape-red rounded-full mt-3 flex-shrink-0"></div><span>${processInlineMarkdown(trimmedLine)}</span></li>`);
     }
     // Handle ordered lists
     else if (trimmedLine.match(/^[\s]*\d+\.\s+/)) {
@@ -174,6 +235,8 @@ function parseMarkdown(content: string): string {
 // Function to process inline markdown (bold, italic, links) with blog styling
 function processInlineMarkdown(text: string): string {
   return text
+    // Remove **•** as it's handled by the list structure
+    .replace(/\*\*•\*\*/g, '')
     // Bold text
     .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-escape-red-800 bg-escape-red/10 px-1 rounded">$1</strong>')
     .replace(/__(.*?)__/g, '<strong class="font-bold text-escape-red-800 bg-escape-red/10 px-1 rounded">$1</strong>')
@@ -351,6 +414,22 @@ export function renderContent(content: string) {
     );
   } else {
     // Plain text - convert to HTML with proper formatting
+    // First check if it might be markdown that wasn't detected
+    const mightBeMarkdown = /^#{1,6}\s+/gm.test(cleanedContent) || 
+                           /^[\s]*[-*+]\s+/gm.test(cleanedContent) || 
+                           /^[\s]*\d+\.\s+/gm.test(cleanedContent);
+    
+    if (mightBeMarkdown) {
+      // Re-process as markdown
+      const processedContent = parseMarkdown(cleanedContent);
+      return (
+        <div 
+          className="max-w-none"
+          dangerouslySetInnerHTML={{ __html: processedContent }}
+        />
+      );
+    }
+    
     const lines = cleanedContent.split('\n');
     const processedLines = [];
     let inList = false;
@@ -369,8 +448,33 @@ export function renderContent(content: string) {
         continue;
       }
       
+      // Handle headings that might not have been detected as markdown
+      if (line.startsWith('## ')) {
+        if (inList && listItems.length > 0) {
+          processedLines.push(`<ul class="list-none text-gray-700 mb-6 space-y-3">${listItems.join('')}</ul>`);
+          listItems = [];
+          inList = false;
+        }
+        processedLines.push(`<h2 class="text-3xl font-bold text-gray-900 mb-3 mt-3 relative group"><span class="bg-gradient-to-r from-gray-900 to-escape-red-800 bg-clip-text text-transparent">${line.substring(3)}</span><div class="absolute -bottom-1 left-0 w-12 h-0.5 bg-escape-red rounded-full group-hover:w-16 transition-all duration-300"></div></h2>`);
+      }
+      else if (line.startsWith('### ')) {
+        if (inList && listItems.length > 0) {
+          processedLines.push(`<ul class="list-none text-gray-700 mb-6 space-y-3">${listItems.join('')}</ul>`);
+          listItems = [];
+          inList = false;
+        }
+        processedLines.push(`<h3 class="text-2xl font-semibold text-gray-900 mb-3 mt-2 flex items-center gap-3"><div class="w-2 h-2 bg-escape-red rounded-full"></div>${line.substring(4)}</h3>`);
+      }
+      else if (line.startsWith('#### ')) {
+        if (inList && listItems.length > 0) {
+          processedLines.push(`<ul class="list-none text-gray-700 mb-6 space-y-3">${listItems.join('')}</ul>`);
+          listItems = [];
+          inList = false;
+        }
+        processedLines.push(`<h4 class="text-xl font-semibold text-gray-900 mb-2 mt-1 flex items-center gap-3"><div class="w-1.5 h-1.5 bg-escape-red rounded-full"></div>${line.substring(5)}</h4>`);
+      }
       // Handle bullet points
-      if (line.startsWith('- ') || line.startsWith('* ')) {
+      else if (line.startsWith('- ') || line.startsWith('* ')) {
         if (!inList) {
           inList = true;
           listItems = [];
@@ -378,14 +482,22 @@ export function renderContent(content: string) {
         const listItem = line.substring(2).trim();
         listItems.push(`<li class="flex items-start gap-3"><div class="w-2 h-2 bg-escape-red rounded-full mt-3 flex-shrink-0"></div><span>${listItem}</span></li>`);
       }
+      // Handle list items that might not have standard markers but are clearly list items
+      else if (isLikelyListItem(line, i, lines)) {
+        if (!inList) {
+          inList = true;
+          listItems = [];
+        }
+        listItems.push(`<li class="flex items-start gap-3"><div class="w-2 h-2 bg-escape-red rounded-full mt-3 flex-shrink-0"></div><span>${line}</span></li>`);
+      }
       // Handle numbered lists
       else if (/^\d+\.\s/.test(line)) {
         if (inList && listItems.length > 0) {
-          processedLines.push(`<ul class="list-none text-gray-700 mb-1 space-y-0">${listItems.join('')}</ul>`);
+          processedLines.push(`<ul class="list-none text-gray-700 mb-6 space-y-3">${listItems.join('')}</ul>`);
           listItems = [];
           inList = false;
         }
-        processedLines.push(`<ol class="list-none text-gray-700 mb-1 space-y-0">`);
+        processedLines.push(`<ol class="list-none text-gray-700 mb-6 space-y-3">`);
         let j = i;
         let counter = 1;
         while (j < lines.length && /^\d+\.\s/.test(lines[j])) {
@@ -400,7 +512,7 @@ export function renderContent(content: string) {
       // Handle paragraphs
       else {
         if (inList && listItems.length > 0) {
-          processedLines.push(`<ul class="list-none text-gray-700 mb-1 space-y-0">${listItems.join('')}</ul>`);
+          processedLines.push(`<ul class="list-none text-gray-700 mb-6 space-y-3">${listItems.join('')}</ul>`);
           listItems = [];
           inList = false;
         }
@@ -433,7 +545,7 @@ export function renderContent(content: string) {
     
     // Close any remaining list
     if (inList && listItems.length > 0) {
-      processedLines.push(`<ul class="list-none text-gray-700 mb-1 space-y-0">${listItems.join('')}</ul>`);
+      processedLines.push(`<ul class="list-none text-gray-700 mb-6 space-y-3">${listItems.join('')}</ul>`);
     }
     
     return (

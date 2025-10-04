@@ -314,7 +314,7 @@ export default function StatePageClient({ country, state }: StatePageClientProps
                   <>
                     Discover thrilling escape room adventures across multiple cities in {stateName}. From mind-bending puzzles to immersive storylines, find your next challenge.
                     <br className="hidden sm:block" />
-                    <span className="text-escape-red-300">Unlock your next great adventure!</span>
+                    <span className="text-escape-red-300">Find escape rooms in this state!</span>
                   </>
                 )}
               </p>

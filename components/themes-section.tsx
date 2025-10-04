@@ -103,7 +103,7 @@ export default async function ThemesSection() {
   const displayThemes = (themes && themes.length > 0 ? themes : placeholderThemes).slice(0, 6);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white relative overflow-hidden">
+    <section className="py-12 bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white relative overflow-hidden">
       {/* Enhanced atmospheric background elements */}
       <div className="absolute inset-0 opacity-15">
         <div className="absolute top-20 left-20 w-64 h-64 bg-escape-red rounded-full blur-3xl animate-pulse"></div>
@@ -111,15 +111,6 @@ export default async function ThemesSection() {
         <div className="absolute top-1/3 right-1/4 w-32 h-32 bg-escape-red-700 rounded-full blur-xl animate-pulse delay-500"></div>
       </div>
       
-      {/* Enhanced floating mystery elements with more visibility */}
-      <div className="absolute inset-0 opacity-30 z-0">
-        <div className="absolute top-1/4 left-1/6 text-8xl animate-mystery-float pointer-events-none drop-shadow-2xl">🔍</div>
-        <div className="absolute top-3/4 right-1/5 text-7xl animate-mystery-float delay-1000 pointer-events-none drop-shadow-2xl">🗝️</div>
-        <div className="absolute top-1/2 left-3/4 text-6xl animate-mystery-float delay-500 pointer-events-none drop-shadow-2xl">🔐</div>
-        <div className="absolute bottom-1/4 right-1/3 text-5xl animate-mystery-float delay-1500 pointer-events-none drop-shadow-2xl">⏱️</div>
-        <div className="absolute top-1/6 right-1/4 text-4xl animate-mystery-float delay-2000 pointer-events-none drop-shadow-2xl">🧩</div>
-        <div className="absolute bottom-1/6 left-1/3 text-5xl animate-mystery-float delay-2500 pointer-events-none drop-shadow-2xl">🎯</div>
-      </div>
 
       {/* Additional geometric background elements */}
       <div className="absolute inset-0 opacity-20 z-0">
@@ -138,22 +129,22 @@ export default async function ThemesSection() {
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-escape-red-200 to-white bg-clip-text text-transparent">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white via-escape-red-200 to-white bg-clip-text text-transparent">
             Explore Escape Rooms by Theme
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
             From heart-pounding horror to mind-bending mysteries, find the perfect themed escape room adventure for your group.
             <br className="hidden sm:block" />
-            <span className="text-escape-red-300">Unlock your next great adventure!</span>
+            <span className="text-escape-red-300">Choose your adventure theme!</span>
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
           {displayThemes.map((themeData, index) => (
             <Link key={index} href={`/themes/${createSEOFriendlySlug(themeData.theme || 'unknown')}`}>
               <Card className="overflow-hidden hover:scale-105 transition-all duration-300 cursor-pointer group border-0 hover:shadow-2xl hover:shadow-escape-red/20">
-                <div className="relative h-64">
+                <div className="relative h-48">
                   <Image
                     src={getThemeImage(themeData.theme)}
                     alt={`${themeData.theme} - Discover ${themeData.count} themed escape room experiences`}
@@ -171,11 +162,11 @@ export default async function ThemesSection() {
                       {themeData.count} rooms
                     </Badge>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-escape-red-200 transition-colors duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="text-xl font-bold mb-1 text-white group-hover:text-escape-red-200 transition-colors duration-300">
                       {themeData.theme}
                     </h3>
-                    <p className="text-gray-200 text-sm leading-relaxed group-hover:text-gray-100 transition-colors duration-300">
+                    <p className="text-gray-200 text-xs leading-relaxed group-hover:text-gray-100 transition-colors duration-300">
                       Explore {themeData.theme} themed escape rooms.
                     </p>
                   </div>
@@ -185,7 +176,7 @@ export default async function ThemesSection() {
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-8">
           <Link href="/themes">
             <Button size="lg">
               View All Themes
