@@ -12,6 +12,7 @@ import ResourcePreloader from "@/components/performance/resource-preloader"
 import { LCPOptimizer } from "@/components/performance/resource-preloader"
 import { Toaster } from "@/components/ui/toaster"
 import GoogleAnalytics from "@/components/analytics/google-analytics"
+import GlobalLoading from "@/components/global-loading"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -153,6 +154,7 @@ export default function RootLayout({
           suppressHydrationWarning
         >
           <AuthProvider>
+            <GlobalLoading />
             <Header />
             <main id="main-content">{children}</main>
             <Footer />

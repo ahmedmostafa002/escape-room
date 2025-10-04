@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BlogPost, formatDate, getImageUrl, calculateReadTime, createSeoSlug } from "@/lib/sanity";
+import { BlogLoadingSkeleton } from "@/components/loading-skeleton";
 
 export default function BlogSection() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -52,28 +53,9 @@ export default function BlogSection() {
         </div>
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="mb-12">
           {loading ? (
-            // Loading skeleton
-            Array.from({ length: 3 }).map((_, index) => (
-              <Card key={index} className="group border-0 shadow-md bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-sm animate-pulse">
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <div className="w-full h-48 bg-slate-700/50" />
-                </div>
-                <CardHeader className="pb-3">
-                  <div className="h-6 bg-slate-700/50 rounded mb-2" />
-                  <div className="h-4 bg-slate-700/50 rounded mb-1" />
-                  <div className="h-4 bg-slate-700/50 rounded w-3/4" />
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="h-4 bg-slate-700/50 rounded w-24" />
-                    <div className="h-4 bg-slate-700/50 rounded w-20" />
-                  </div>
-                  <div className="h-10 bg-slate-700/50 rounded" />
-                </CardContent>
-              </Card>
-            ))
+            <BlogLoadingSkeleton />
           ) : error ? (
             // Error state
             <div className="col-span-full text-center py-12">
