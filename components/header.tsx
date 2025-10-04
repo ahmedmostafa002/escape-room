@@ -102,6 +102,10 @@ export default function Header() {
               </div>
             </Link>
             <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+              <Link href="/" className="text-gray-300 hover:text-escape-red transition-all duration-300 hover:scale-105 font-medium relative group">
+                Home
+                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-escape-red transition-all duration-300 group-hover:w-full"></div>
+              </Link>
               <Link href="/browse" className="text-gray-300 hover:text-escape-red transition-all duration-300 hover:scale-105 font-medium relative group">
                 Browse Rooms
                 <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-escape-red transition-all duration-300 group-hover:w-full"></div>
@@ -199,6 +203,9 @@ export default function Header() {
           <div className="lg:hidden border-t border-escape-red/20 bg-gradient-to-br from-gray-900 via-black to-gray-800 backdrop-blur-md">
             <div className="container py-4">
               <nav className="flex flex-col gap-4">
+                <Link href="/" className="text-gray-300 hover:text-escape-red transition-colors py-2 font-medium">
+                  Home
+                </Link>
                 <Link href="/browse" className="text-gray-300 hover:text-escape-red transition-colors py-2 font-medium">
                   Browse Rooms
                 </Link>
