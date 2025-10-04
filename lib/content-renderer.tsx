@@ -1,3 +1,5 @@
+import { cleanContent } from './content-cleaner'
+
 // Function to detect content type more accurately
 function detectContentType(content: string): 'html' | 'markdown' | 'plain' {
   const trimmedContent = content.trim();
@@ -126,7 +128,7 @@ function parseMarkdown(content: string): string {
         
         sentences.forEach((sentence: string) => {
           if (currentParagraph.length + sentence.length > 80 && currentParagraph.length > 0) {
-            shortParagraphs.push(`<p class="text-gray-700 mb-3 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
+            shortParagraphs.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
             currentParagraph = sentence;
           } else {
             currentParagraph += (currentParagraph ? ' ' : '') + sentence;
@@ -134,12 +136,12 @@ function parseMarkdown(content: string): string {
         });
         
         if (currentParagraph) {
-          shortParagraphs.push(`<p class="text-gray-700 mb-0 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
+          shortParagraphs.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
         }
         
         processedLines.push(shortParagraphs.join(''));
       } else {
-        processedLines.push(`<p class="text-gray-700 mb-3 leading-relaxed text-lg">${processedLine}</p>`);
+        processedLines.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${processedLine}</p>`);
       }
     }
     
@@ -208,7 +210,7 @@ function processHtmlContent(content: string): string {
         
         sentences.forEach((sentence: string) => {
           if (currentParagraph.length + sentence.length > 80 && currentParagraph.length > 0) {
-            shortParagraphs.push(`<p class="text-gray-700 mb-3 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
+            shortParagraphs.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
             currentParagraph = sentence;
           } else {
             currentParagraph += (currentParagraph ? ' ' : '') + sentence;
@@ -216,12 +218,12 @@ function processHtmlContent(content: string): string {
         });
         
         if (currentParagraph) {
-          shortParagraphs.push(`<p class="text-gray-700 mb-0 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
+          shortParagraphs.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
         }
         
         processedSections.push(shortParagraphs.join(''));
       } else {
-        processedSections.push(`<p class="text-gray-700 mb-3 leading-relaxed text-lg">${text}</p>`);
+        processedSections.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${text}</p>`);
       }
     }
   }
@@ -270,7 +272,7 @@ function processHtmlContent(content: string): string {
         
         sentences.forEach((sentence: string) => {
           if (currentParagraph.length + sentence.length > 80 && currentParagraph.length > 0) {
-            shortParagraphs.push(`<p class="text-gray-700 mb-3 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
+            shortParagraphs.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
             currentParagraph = sentence;
           } else {
             currentParagraph += (currentParagraph ? ' ' : '') + sentence;
@@ -278,12 +280,12 @@ function processHtmlContent(content: string): string {
         });
         
         if (currentParagraph) {
-          shortParagraphs.push(`<p class="text-gray-700 mb-0 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
+          shortParagraphs.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
         }
         
         return shortParagraphs.join('');
       } else {
-        return `<p class="text-gray-700 mb-3 leading-relaxed text-lg">${content}</p>`;
+        return `<p class="text-gray-700 mb-6 leading-relaxed text-lg">${content}</p>`;
       }
     })
     // Unordered list styling
@@ -315,16 +317,24 @@ function processHtmlContent(content: string): string {
   return fixedContent;
 }
 
+// Function to fix mojibake and clean problematic characters in real-time
+function fixMojibakeRealtime(text: string): string {
+  return cleanContent(text)
+}
+
 // Main function to render content with proper HTML and markdown support
 export function renderContent(content: string) {
   if (!content || content.trim() === '') {
     return <div className="text-gray-500 italic">No content available</div>;
   }
   
-  const contentType = detectContentType(content);
+  // Fix mojibake in real-time before processing
+  const cleanedContent = fixMojibakeRealtime(content);
+  
+  const contentType = detectContentType(cleanedContent);
   
   if (contentType === 'markdown') {
-    const processedContent = parseMarkdown(content);
+    const processedContent = parseMarkdown(cleanedContent);
     return (
       <div 
         className="max-w-none"
@@ -332,7 +342,7 @@ export function renderContent(content: string) {
       />
     );
   } else if (contentType === 'html') {
-    const processedContent = processHtmlContent(content);
+    const processedContent = processHtmlContent(cleanedContent);
     return (
       <div 
         className="max-w-none"
@@ -341,7 +351,7 @@ export function renderContent(content: string) {
     );
   } else {
     // Plain text - convert to HTML with proper formatting
-    const lines = content.split('\n');
+    const lines = cleanedContent.split('\n');
     const processedLines = [];
     let inList = false;
     let listItems: string[] = [];
@@ -403,7 +413,7 @@ export function renderContent(content: string) {
           
           sentences.forEach((sentence: string) => {
             if (currentParagraph.length + sentence.length > 150 && currentParagraph.length > 0) {
-              shortParagraphs.push(`<p class="text-gray-700 mb-3 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
+              shortParagraphs.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
               currentParagraph = sentence;
             } else {
               currentParagraph += (currentParagraph ? ' ' : '') + sentence;
@@ -411,12 +421,12 @@ export function renderContent(content: string) {
           });
           
           if (currentParagraph) {
-            shortParagraphs.push(`<p class="text-gray-700 mb-0 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
+            shortParagraphs.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${currentParagraph.trim()}</p>`);
           }
           
           processedLines.push(shortParagraphs.join(''));
         } else {
-          processedLines.push(`<p class="text-gray-700 mb-3 leading-relaxed text-lg">${line}</p>`);
+          processedLines.push(`<p class="text-gray-700 mb-6 leading-relaxed text-lg">${line}</p>`);
         }
       }
     }

@@ -9,7 +9,10 @@
     "start": "next start",
     "upload-data": "node upload-data.js",
     "fix-content": "npx tsx scripts/fix-content-encoding.ts",
-    "test-content": "npx tsx scripts/test-content-fix.ts"
+    "fix-content-enhanced": "npx tsx scripts/enhanced-content-fix.ts",
+    "test-content": "npx tsx scripts/test-content-fix.ts",
+    "test-mojibake": "npx tsx scripts/test-mojibake-fix.ts",
+    "test-cleaner": "node scripts/test-content-cleaner.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^3.2.1",
