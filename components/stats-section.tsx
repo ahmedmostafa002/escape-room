@@ -132,15 +132,6 @@ export default function StatsSection() {
         <div className="absolute top-1/2 left-1/2 w-48 h-48 bg-escape-red-700 rounded-full blur-2xl animate-pulse delay-500" />
       </div>
 
-      {/* Enhanced floating mystery elements with more visibility */}
-      <div className="absolute inset-0 opacity-30 z-0">
-        <div className="absolute top-1/4 left-1/6 text-8xl animate-mystery-float pointer-events-none drop-shadow-2xl">🔍</div>
-        <div className="absolute top-3/4 right-1/5 text-7xl animate-mystery-float delay-1000 pointer-events-none drop-shadow-2xl">🗝️</div>
-        <div className="absolute top-1/2 left-3/4 text-6xl animate-mystery-float delay-500 pointer-events-none drop-shadow-2xl">🔐</div>
-        <div className="absolute bottom-1/4 right-1/3 text-5xl animate-mystery-float delay-1500 pointer-events-none drop-shadow-2xl">⏱️</div>
-        <div className="absolute top-1/6 right-1/4 text-4xl animate-mystery-float delay-2000 pointer-events-none drop-shadow-2xl">🧩</div>
-        <div className="absolute bottom-1/6 left-1/3 text-5xl animate-mystery-float delay-2500 pointer-events-none drop-shadow-2xl">🎯</div>
-      </div>
 
       {/* Additional geometric background elements */}
       <div className="absolute inset-0 opacity-20 z-0">
