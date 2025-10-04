@@ -68,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getAllBlogPosts().catch(() => []),
     getStatesWithRoomCounts().catch(() => ({ data: [] })),
     getThemesWithCounts().catch(() => ({ data: [] })),
-    getEscapeRooms({ limit: 1000 }).catch(() => ({ data: [] }))
+    getEscapeRooms({ limit: 10000 }).catch(() => ({ data: [] })) // Increased limit to include all venues
   ])
 
   // Blog posts
@@ -95,12 +95,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  // City pages (limited to top cities to avoid sitemap size issues)
+  // City pages (increased limits to include more pages)
   const cityPages: MetadataRoute.Sitemap = []
-  for (const state of statesData.data.slice(0, 10)) { // Limit to top 10 states
+  for (const state of statesData.data) { // Include all states
     try {
       const citiesData = await getCitiesWithCounts(state.state)
-      const topCities = citiesData.data.slice(0, 20) // Top 20 cities per state
+      const topCities = citiesData.data.slice(0, 50) // Top 50 cities per state
       
       for (const city of topCities) {
         cityPages.push({
